@@ -3,7 +3,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page isErrorPage="true" %>
+<%@ page isErrorPage="true" %>  
 
 <!DOCTYPE html>
 <html>
@@ -22,30 +22,9 @@
 
 <body>
 	<div class="container bg-light rounded p-5">
-		<h1 class="display-4">BURGERS</h1>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Burger Name</th>
-					<th>Restaurant Name</th>
-					<th>Rating</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
- 				<c:forEach var="b" items="${burgers}">
-					<tr>
-						<td>${b.name}</td>
-						<td>${b.restaurant}</td>
-						<td>${b.rating}</td>
-						<td><a class="link-primary" href="/burgers/edit/${b.id}">Edit</a></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-    </div>
-	<div class="container bg-light rounded p-5">
-		<form:form action="/" method="POST" modelAttribute="burger">
+		<h1 class="display-5">Edit ${burger.name}</h1>
+		<form:form action="/burgers/edit/${burger.id}" method="POST" modelAttribute="burger">
+			<input type="hidden" name="_method" value="PUT">
 			<div class="form-group">
 				<form:label path="name">Burger Name</form:label>
 				<form:errors path="name" class="text-danger" />
@@ -61,7 +40,7 @@
 				<form:errors path="rating" class="text-danger" />
 				<form:input class="form-control" path="rating" type="number" />
 			</div>
-			<button type="submit" class="btn btn-primary btn-block">Submit</button>
+			<button type="submit" class="btn btn-primary btn-block my-2">Submit</button>
 		</form:form>
 	</div>
 </body>

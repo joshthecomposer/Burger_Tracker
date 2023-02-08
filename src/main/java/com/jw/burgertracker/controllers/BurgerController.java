@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.jw.burgertracker.models.Burger;
 import com.jw.burgertracker.services.BurgerService;
@@ -17,7 +19,7 @@ import com.jw.burgertracker.services.BurgerService;
 public class BurgerController {
 	@Autowired
 	BurgerService bServ;
-	
+
 	@GetMapping("/")
 	public String index(Model m) {
 		m.addAttribute("burgers", bServ.findAll());
@@ -37,6 +39,28 @@ public class BurgerController {
 			return "index.jsp";
 		}
 		bServ.create(burger);
+		return "redirect:/";
+	}
+	
+	@GetMapping("/burgers/edit/{id}")
+	public String edit(
+			@PathVariable("id") Long id,
+			Model m
+			) {
+		m.addAttribute("burger", bServ.byID(id));
+		return "/edit.jsp";
+	}
+
+	@PutMapping("/burgers/edit/{id}")
+	public String update(
+			@Valid @ModelAttribute("burger") Burger b,
+			BindingResult result,
+			Model m
+			) {
+		if (result.hasErrors()) {
+			return "/edit.jsp";
+		}
+		bServ.update(b);
 		return "redirect:/";
 	}
 }
